@@ -5,6 +5,9 @@ local TIE, CELL_X, CELL_O = Board.TIE, Board.CELL_X, Board.CELL_O
 Board = Board.Board
 
 local random_ai = require('random_ai')
+local minimax_ai = require('minimax_ai')
+
+local AI_TYPE = 1
 
 -- Settings
 local board_size = 5
@@ -58,7 +61,7 @@ function love.draw()
 end
 
 function play_ai()
-    local cell = random_ai.choose_random_move(board)
+    local cell = AI_TYPE == 1 and random_ai.choose_random_move(board) or minimax_ai.choose_best_move(board, current_player)
     if cell then
         board:set_cell(cell.x, cell.y, current_player)
         switch_player()
