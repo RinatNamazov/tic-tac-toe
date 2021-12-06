@@ -1,8 +1,7 @@
 local colors = require('colors')
 local utils = require('utils')
 
-local CELL_X, CELL_O = 1, 2
-
+local TIE, CELL_X, CELL_O = 0, 1, 2
 local Board = {}
 
 function Board:new(size, space, offset)
@@ -195,7 +194,7 @@ function Board:get_winner()
     end
 
     if winner == nil and not self:has_empty_cells() then
-        return -1 -- Tie
+        return TIE
     end
 
     return winner
@@ -203,6 +202,7 @@ end
 
 return {
     Board = Board,
+    TIE = TIE,
     CELL_X = CELL_X,
     CELL_O = CELL_O
 }

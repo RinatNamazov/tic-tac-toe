@@ -1,7 +1,7 @@
 local colors = require('colors')
 
 local Board = require('board')
-local CELL_X, CELL_O = Board.CELL_X, Board.CELL_O
+local TIE, CELL_X, CELL_O = Board.TIE, Board.CELL_X, Board.CELL_O
 Board = Board.Board
 
 local random_ai = require('random_ai')
@@ -82,7 +82,7 @@ function check_win()
         message_text = 'Player X won.'
     elseif winner == CELL_O then
         message_text = 'Player O won.'
-    elseif winner == -1 then
+    elseif winner == TIE then
         message_text = 'Tie.'
     end
 end
