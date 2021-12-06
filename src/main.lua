@@ -8,17 +8,21 @@ local random_ai = require('random_ai')
 
 -- Settings
 local board_size = 5
-local board_space = 100
 local current_player = CELL_X
 
+local board_draw_offset = { x = 0, y = 50 }
 local process_game = true
 local message_text = ''
 local board
 
+function get_board_space_for_size(size)
+    return love.graphics.getWidth() / size
+end
+
 function love.load()
     love.graphics.setBackgroundColor(colors.WHITE)
 
-    board = Board:new(board_size, board_space, {x = 0, y = 50})
+    board = Board:new(board_size, get_board_space_for_size(board_size), board_draw_offset)
 end
 
 function love.mousepressed(x, y, button, is_touch, presses)
@@ -48,7 +52,7 @@ function love.draw()
     love.graphics.print(message_text, 0, 0)
 
     -- Separator betwen message and board.
-    love.graphics.line(0, 50, 500, 50)
+    love.graphics.line(0, board_draw_offset.y, love.graphics.getWidth(), board_draw_offset.y)
 
     board:draw()
 end
