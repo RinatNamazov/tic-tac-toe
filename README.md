@@ -2,6 +2,8 @@
 
 Tic tac toe, written in Lua with LÖVE.
 
+![tic-tac-toe](https://user-images.githubusercontent.com/28570920/146581360-537843d0-9270-4f3f-93af-5a49df314337.png)
+
 ## Installation
 
 * Install LÖVE 2D game engine (https://love2d.org/).
