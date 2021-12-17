@@ -2,5 +2,8 @@ return {
     BLACK = {0, 0, 0},
     WHITE = {1, 1, 1},
     RED = {1, 0, 0},
-    BLUE = {0, 0, 1}
+    GREEN = {0, 1, 0},
+    BLUE = {0, 0, 1},
+    GRAY_BLUE = {0.38, 0.37, 0.45},
+    GRAYISH_BLUE = {0.74, 0.84, 0.92}
 }

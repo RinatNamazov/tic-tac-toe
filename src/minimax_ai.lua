@@ -23,6 +23,9 @@ function choose_best_move(board, current_player)
 end
 
 function minimax_score(board, depth, is_maximizing, who_i_am)
+    -- There are too many combinations on the big board...
+    if board.size > 3 and depth > 1 then return 0 end
+
     local winner = board:get_winner()
     if winner ~= nil then
         if winner == TIE then
