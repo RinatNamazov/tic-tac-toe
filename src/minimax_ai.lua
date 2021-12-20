@@ -10,7 +10,7 @@ function choose_best_move(board, current_player)
         local cell = empty_cells[i]
 
         board:set_cell(cell.x, cell.y, current_player)
-        local score = minimax_score(board, 0, false, current_player)
+        local score = minimax_alpha_beta_pruning(board, current_player, false, 5, -math.huge, math.huge)
         board:set_cell(cell.x, cell.y, nil)
 
         if score > best_score then
@@ -18,23 +18,23 @@ function choose_best_move(board, current_player)
             best_move = {x = cell.x, y = cell.y}
         end
     end
-
     return best_move
 end
 
-function minimax_score(board, depth, is_maximizing, who_i_am)
-    -- There are too many combinations on the big board...
-    if board.size > 3 and depth > 1 then return 0 end
-
+function minimax_alpha_beta_pruning(board, current_player, is_maximizing, depth, alpha, beta)
     local winner = board:get_winner()
     if winner ~= nil then
         if winner == TIE then
             return 0
-        elseif winner == who_i_am then
+        elseif winner == current_player then
             return 1
         else
             return -1
         end
+    end
+
+    if depth == 0 then
+        return
     end
 
     local best_score
@@ -44,19 +44,31 @@ function minimax_score(board, depth, is_maximizing, who_i_am)
         best_score = -math.huge
         for i = 1, #empty_cells do
             local cell = empty_cells[i]
-            board:set_cell(cell.x, cell.y, who_i_am)
-            local score = minimax_score(board, depth + 1, false, who_i_am)
+            board:set_cell(cell.x, cell.y, current_player)
+            local score = minimax_alpha_beta_pruning(board, current_player, false, depth - 1, alpha, beta)
             board:set_cell(cell.x, cell.y, nil)
-            best_score = math.max(score, best_score)
+            if score ~= nil then
+                best_score = math.max(score, best_score)
+                alpha = math.max(score, alpha)
+                if best_score >= beta then
+                    break
+                end
+            end
         end
     else
         best_score = math.huge
         for i = 1, #empty_cells do
             local cell = empty_cells[i]
-            board:set_cell(cell.x, cell.y, get_opponent(who_i_am))
-            local score = minimax_score(board, depth + 1, true, who_i_am)
+            board:set_cell(cell.x, cell.y, get_opponent(current_player))
+            local score = minimax_alpha_beta_pruning(board, current_player, true, depth - 1, alpha, beta)
             board:set_cell(cell.x, cell.y, nil)
-            best_score = math.min(score, best_score)
+            if score ~= nil then
+                best_score = math.min(score, best_score)
+                beta = math.min(score, beta)
+                if best_score <= alpha then
+                    break
+                end
+            end
         end
     end
 
