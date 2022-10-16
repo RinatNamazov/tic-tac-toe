@@ -58,8 +58,9 @@ function love.mousepressed(x, y, button, is_touch, presses)
         -- Do not change the status of already set cells.
         if board:get_cell(a, b) == nil then
             board:set_cell(a, b, current_player)
-            switch_player()
-            check_win()
+            if not check_win() then
+                switch_player()
+            end
         end
     end
 end
@@ -291,8 +292,9 @@ function play_ai()
     end
     if cell then
         board:set_cell(cell.x, cell.y, current_player)
-        switch_player()
-        check_win()
+        if not check_win() then
+            switch_player()
+        end
     end
 end
 
@@ -371,5 +373,7 @@ function check_win()
             message_text = 'Tie.'
         end
         set_current_menu(MENU_MAIN)
+        return true
     end
+    return false
 end
