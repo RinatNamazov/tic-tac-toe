@@ -305,7 +305,7 @@ end
 local waiting_timer = 0
 local need_play_as_ai = false
 
-function love.update(dt)
+function love_update(dt)
     waiting_timer = waiting_timer + dt
     if waiting_timer > 0.5 then
         waiting_timer = 0
@@ -339,6 +339,7 @@ end
 
 function set_gamemode(mode)
     gamemode = mode
+    love.update = gamemode == MODE_AI_VS_AI and love_update or nil
 end
 
 function set_current_menu(menu)
